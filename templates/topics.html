@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ board.name }}
+{% endblock %}
+{% block breadcrumb %}
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'home' %}">Boards</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ board.name }} Topics</li>
+{% endblock %}
+{% block content %}
+    {% if board.topics.all %}
+        <div class="container-xl mt-3">
+            <table class="table">
+                <thead class='table-dark'>
+                    <tr>
+                        <th>subject</th>
+                        <th>board</th>
+                        <th>created by</th>
+                        <th>created date</th>
+                    </tr>
+                </thead>
+                <tbody class="table-light table-secondary">
+                    {% for topic in board.topics.all %}
+                        <tr>
+                            <td>
+                                <span><a href='' board.id %}'>{{topic.subject}}</a></span>
+                                <br>
+                                <small class="text-muted">written by: {{topic.created_by}} on {{topic.created_dt}}</small>
+                            </td>
+                            <td>{{topic.board}}</td>
+                            <td>{{topic.created_by}}</td>
+                            <td>{{topic.created_dt}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="df justify-content-start my-3">
+                <a 
+                    href="{% url 'new_topic' board.id %}" 
+                    class="btn btn-primary">
+                    Create Post
+                </a>
+            </div>
+        </div>
+    {% else %}
+        <div class="d-flex flex-column align-items-space-between">
+            <p><em>{{board.name}} Board has no posts yet!</em> </p>
+            <a 
+                href="{% url 'new_topic' board.id %}" 
+                class="btn btn-primary">
+                Create Post
+            </a>
+        </div>
+    {% endif %}  
+{% endblock %}
